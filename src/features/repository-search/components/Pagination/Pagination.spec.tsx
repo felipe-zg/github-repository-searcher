@@ -88,4 +88,22 @@ describe('Pagination', () => {
       })
     ).toBeDisabled()
   })
+
+  it('should disable both buttons while loading', () => {
+    makeSut({
+      loading: true
+    })
+
+    expect(
+      screen.getByRole('button', {
+        name: '前へ'
+      })
+    ).toBeDisabled()
+
+    expect(
+      screen.getByRole('button', {
+        name: '次へ'
+      })
+    ).toBeDisabled()
+  })
 })
