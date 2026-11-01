@@ -35,4 +35,24 @@ describe('SearchBar', () => {
     expect(onChange).toHaveBeenCalled()
     expect(onChange).toHaveBeenLastCalledWith('t')
   })
+
+  it('should clear the search value when the clear button is clicked', async () => {
+    const user = userEvent.setup()
+    const onChange = vi.fn()
+
+    render(
+      <SearchBar
+        value="react"
+        onChange={onChange}
+      />
+    )
+
+    await user.click(
+      screen.getByRole('button', {
+        name: /クリア|clear/i
+      })
+    )
+
+    expect(onChange).toHaveBeenCalledWith('')
+  })
 })
