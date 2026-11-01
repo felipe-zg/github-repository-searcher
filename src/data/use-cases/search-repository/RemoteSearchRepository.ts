@@ -43,8 +43,8 @@ export class RemoteSearchRepository implements SearchRepository {
           repositories: httpResponse.body?.items.map(
             GitHubRepositoryMapper.toDomain
           ) || [],
-          totalCount: httpResponse.body?.total_count || 1,
-          incompleteResults: httpResponse.body?.incomplete_results || false
+          totalCount: httpResponse.body?.total_count ?? 0,
+          incompleteResults: httpResponse.body?.incomplete_results ?? false
         };
       case HttpStatusCode.notFound:
         return {
