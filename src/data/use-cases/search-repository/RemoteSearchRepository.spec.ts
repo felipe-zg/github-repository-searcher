@@ -84,4 +84,24 @@ describe('RemoteSearchRepository', () => {
       signal: undefined
     })
   })
+
+  it('should pass the AbortSignal to the HTTP client', async () => {
+    const { sut, httpGetClient } = makeSut()
+    const controller = new AbortController()
+
+    await sut.search(
+      {
+        q: 'react',
+        page: 1,
+        per_page: 10
+      },
+      controller.signal
+    )
+
+    expect(httpGetClient.get).toHaveBeenCalledWith(
+      expect.objectContaining({
+        signal: controller.signal
+      })
+    )
+  })
 })
