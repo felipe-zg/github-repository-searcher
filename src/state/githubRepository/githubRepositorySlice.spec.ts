@@ -183,4 +183,56 @@ describe('githubRepositorySlice', () => {
     expect(state.repositories).toEqual([])
     expect(state.totalCount).toBe(0)
   })
+
+  it('should ignore results from an older request', async () => {
+    const { store, search } = makeSut()
+
+    let resolveFirst!: (value: RepositorySearchResult) => void
+    let resolveSecond!: (value: RepositorySearchResult) => void
+
+    const firstResult = makeSearchResult()
+
+    const secondResult: RepositorySearchResult = {
+      ...makeSearchResult(),
+      totalCount: 2
+    }
+
+    search
+      .mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            resolveFirst = resolve
+          })
+      )
+      .mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            resolveSecond = resolve
+          })
+      )
+
+    const firstRequest = store.dispatch(
+      fetchRepositories({
+        q: 'react',
+        page: 1,
+        per_page: 10
+      })
+    )
+
+    const secondRequest = store.dispatch(
+      fetchRepositories({
+        q: 'typescript',
+        page: 1,
+        per_page: 10
+      })
+    )
+
+    resolveSecond(secondResult)
+    await secondRequest
+
+    resolveFirst(firstResult)
+    await firstRequest
+
+    expect(store.getState().githubRepository.totalCount).toBe(2)
+  })
 })
