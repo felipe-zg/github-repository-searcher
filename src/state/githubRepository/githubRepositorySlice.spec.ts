@@ -103,4 +103,23 @@ describe('githubRepositorySlice', () => {
     expect(state.loading).toBe(false)
     expect(state.error).toBeNull()
   })
+
+  it('should store an error when a search request fails', async () => {
+    const { store, search } = makeSut()
+
+    search.mockRejectedValue(new Error('Network error'))
+
+    await store.dispatch(
+      fetchRepositories({
+        q: 'react',
+        page: 1,
+        per_page: 10
+      })
+    )
+
+    const state = store.getState().githubRepository
+
+    expect(state.loading).toBe(false)
+    expect(state.error).toBe('Network error')
+  })
 })
