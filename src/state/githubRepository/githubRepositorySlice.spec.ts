@@ -80,4 +80,27 @@ describe('githubRepositorySlice', () => {
 
     await request
   })
+
+  it('should store repositories and totalCount when a search succeeds', async () => {
+    const { store, search } = makeSut()
+
+    search.mockResolvedValue(makeSearchResult())
+
+    await store.dispatch(
+      fetchRepositories({
+        q: 'react',
+        page: 1,
+        per_page: 10
+      })
+    )
+
+    const state = store.getState().githubRepository
+
+    expect(state.repositories).toHaveLength(1)
+    expect(state.repositories[0].fullName).toBe('facebook/react')
+    expect(state.totalCount).toBe(1)
+    expect(state.currentPage).toBe(1)
+    expect(state.loading).toBe(false)
+    expect(state.error).toBeNull()
+  })
 })
