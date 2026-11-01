@@ -4,6 +4,14 @@ GitHub Search API を利用して、キーワードから GitHub のリポジト
 
 React と TypeScript をベースに、検索機能の実装だけでなく、責務の分離・テスト容易性・非同期処理の管理を意識して構成しています。
 
+## デモ
+
+本アプリケーションは Netlify にデプロイしています。以下の URL から実際に動作するアプリケーションをお試しいただけます。
+
+**公開デモ：** [https://githubrepositorysearcher.netlify.app](https://githubrepositorysearcher.netlify.app)
+
+ブラウザからアクセスして、GitHub リポジトリの検索機能やページネーションなどを実際に操作できます。
+
 ## 主な機能
 
 - **キーワード検索**：リポジトリ名や関連キーワードで GitHub のリポジトリを検索
