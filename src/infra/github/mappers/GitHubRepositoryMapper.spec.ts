@@ -52,5 +52,17 @@ describe('GitHubRepositoryMapper', () => {
         updatedAt: '2026-10-30T12:00:00Z'
       })
     })
+
+    it('should preserve null descriptions and languages', () => {
+      const dto = makeGitHubRepositoryDTO()
+
+      dto.description = null
+      dto.language = null
+
+      const result = GitHubRepositoryMapper.toDomain(dto)
+
+      expect(result.description).toBeNull()
+      expect(result.language).toBeNull()
+    })
   })
 })
