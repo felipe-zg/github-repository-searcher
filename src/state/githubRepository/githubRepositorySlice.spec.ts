@@ -122,4 +122,34 @@ describe('githubRepositorySlice', () => {
     expect(state.loading).toBe(false)
     expect(state.error).toBe('Network error')
   })
+
+  it('should not store an error when a request is aborted', async () => {
+    const { store, search } = makeSut()
+
+    search.mockImplementation(
+      (_, signal) =>
+        new Promise((_, reject) => {
+          signal?.addEventListener('abort', () => {
+            reject(new DOMException('Aborted', 'AbortError'))
+          })
+        })
+    )
+
+    const request = store.dispatch(
+      fetchRepositories({
+        q: 'react',
+        page: 1,
+        per_page: 10
+      })
+    )
+
+    request.abort()
+
+    await request
+
+    const state = store.getState().githubRepository
+
+    expect(state.loading).toBe(false)
+    expect(state.error).toBeNull()
+  })
 })
