@@ -64,5 +64,17 @@ describe('GitHubRepositoryMapper', () => {
       expect(result.description).toBeNull()
       expect(result.language).toBeNull()
     })
+
+    it('should correctly map nested owner properties', () => {
+      const dto = makeGitHubRepositoryDTO()
+
+      const result = GitHubRepositoryMapper.toDomain(dto)
+
+      expect(result.owner).toEqual({
+        login: 'facebook',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/69631',
+        htmlUrl: 'https://github.com/facebook'
+      })
+    })
   })
 })
