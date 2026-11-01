@@ -27,8 +27,9 @@ export default defineConfig({
       tsconfig: path.join(import.meta.dirname, "tsconfig.json"),
     },
 
+    setupFiles: ["./src/test/setup.ts"],
     globals: true,
     watch: false,
-    setupFiles: ["./src/setupTests.ts"],
+    clearMocks: true,
   },
 })
