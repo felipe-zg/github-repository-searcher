@@ -2,7 +2,8 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
 import { App } from "@/App"
-import "@/index.css"
+import '@/styles/theme.css'
+import '@/styles/global.css'
 import { store } from "@/state/store";
 
 const container = document.getElementById("root")
