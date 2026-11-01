@@ -140,4 +140,24 @@ describe('RemoteSearchRepository', () => {
       incompleteResults: false
     })
   })
+
+  it('should return an empty result when the API returns no repositories', async () => {
+    const { sut } = makeSut({
+      total_count: 0,
+      incomplete_results: false,
+      items: []
+    })
+
+    const result = await sut.search({
+      q: 'nonexistent-repository',
+      page: 1,
+      per_page: 10
+    })
+
+    expect(result).toEqual({
+      repositories: [],
+      totalCount: 0,
+      incompleteResults: false
+    })
+  })
 })
