@@ -51,4 +51,17 @@ describe('Pagination', () => {
 
     expect(onPageChange).toHaveBeenCalledWith(3)
   })
+
+  it('should navigate to the previous page', async () => {
+    const user = userEvent.setup()
+    const { onPageChange } = makeSut()
+
+    await user.click(
+      screen.getByRole('button', {
+        name: '前へ'
+      })
+    )
+
+    expect(onPageChange).toHaveBeenCalledWith(1)
+  })
 })
