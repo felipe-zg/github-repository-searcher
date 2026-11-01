@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { SearchBar } from './SearchBar'
 
@@ -13,5 +14,25 @@ describe('SearchBar', () => {
     )
 
     expect(screen.getByRole('textbox')).toHaveValue('react')
+  })
+
+  it('should call onChange when the user types', async () => {
+    const user = userEvent.setup()
+    const onChange = vi.fn()
+
+    render(
+      <SearchBar
+        value=""
+        onChange={onChange}
+      />
+    )
+
+    await user.type(
+      screen.getByRole('textbox'),
+      'react'
+    )
+
+    expect(onChange).toHaveBeenCalled()
+    expect(onChange).toHaveBeenLastCalledWith('t')
   })
 })
