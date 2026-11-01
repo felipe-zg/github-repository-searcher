@@ -104,4 +104,40 @@ describe('RemoteSearchRepository', () => {
       })
     )
   })
+
+  it('should return mapped repository search results when the response is successful', async () => {
+    const { sut } = makeSut()
+
+    const result = await sut.search({
+      q: 'react',
+      page: 1,
+      per_page: 10
+    })
+
+    expect(result).toEqual({
+      repositories: [
+        {
+          id: 123,
+          name: 'react',
+          fullName: 'facebook/react',
+          description: 'The library for web and native user interfaces',
+          htmlUrl: 'https://github.com/facebook/react',
+          owner: {
+            login: 'facebook',
+            avatarUrl: 'https://avatars.githubusercontent.com/u/69631',
+            htmlUrl: 'https://github.com/facebook'
+          },
+          language: 'JavaScript',
+          stargazersCount: 200000,
+          forksCount: 40000,
+          watchersCount: 6500,
+          openIssuesCount: 1000,
+          createdAt: '2013-05-24T16:15:54Z',
+          updatedAt: '2026-10-30T12:00:00Z'
+        }
+      ],
+      totalCount: 1,
+      incompleteResults: false
+    })
+  })
 })
