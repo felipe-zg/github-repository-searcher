@@ -1,0 +1,13 @@
+.repository-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-6);
+  width: 100%;
+}
+
+@media (max-width: 48rem) {
+  .repository-list {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-4);
+  }
+}
