@@ -7,6 +7,12 @@ import packageJson from "./package.json" with { type: "json" }
 export default defineConfig({
   plugins: [react()],
 
+  resolve: {
+    alias: {
+      "@": `${import.meta.dirname}/src`,
+    },
+  },
+
   server: {
     open: true,
   },
