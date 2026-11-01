@@ -6,6 +6,7 @@ import type { RepositorySearchResult } from '@/domain/models'
 
 import githubRepositoryReducer, {
   fetchRepositories,
+  setCurrentPage
 } from './githubRepositorySlice'
 
 const makeSearchResult = (): RepositorySearchResult => ({
@@ -151,5 +152,13 @@ describe('githubRepositorySlice', () => {
 
     expect(state.loading).toBe(false)
     expect(state.error).toBeNull()
+  })
+
+  it('should update the current page', () => {
+    const { store } = makeSut()
+
+    store.dispatch(setCurrentPage(3))
+
+    expect(store.getState().githubRepository.currentPage).toBe(3)
   })
 })
