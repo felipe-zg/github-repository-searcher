@@ -6,6 +6,7 @@ import type { RepositorySearchResult } from '@/domain/models'
 
 import githubRepositoryReducer, {
   fetchRepositories,
+  clearRepositories,
   setCurrentPage
 } from './githubRepositorySlice'
 
@@ -160,5 +161,26 @@ describe('githubRepositorySlice', () => {
     store.dispatch(setCurrentPage(3))
 
     expect(store.getState().githubRepository.currentPage).toBe(3)
+  })
+
+  it('should clear the repository results', async () => {
+    const { store, search } = makeSut()
+
+    search.mockResolvedValue(makeSearchResult())
+
+    await store.dispatch(
+      fetchRepositories({
+        q: 'react',
+        page: 1,
+        per_page: 10
+      })
+    )
+
+    store.dispatch(clearRepositories())
+
+    const state = store.getState().githubRepository
+
+    expect(state.repositories).toEqual([])
+    expect(state.totalCount).toBe(0)
   })
 })
