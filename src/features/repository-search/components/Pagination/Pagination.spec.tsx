@@ -64,4 +64,16 @@ describe('Pagination', () => {
 
     expect(onPageChange).toHaveBeenCalledWith(1)
   })
+
+  it('should disable the previous button on the first page', () => {
+    makeSut({
+      currentPage: 1
+    })
+
+    expect(
+      screen.getByRole('button', {
+        name: '前へ'
+      })
+    ).toBeDisabled()
+  })
 })
