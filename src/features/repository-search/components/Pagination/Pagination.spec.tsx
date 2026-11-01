@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { Pagination } from './Pagination'
 
@@ -36,5 +37,18 @@ describe('Pagination', () => {
     })
 
     expect(paginationText).toBeInTheDocument()
+  })
+
+  it('should navigate to the next page', async () => {
+    const user = userEvent.setup()
+    const { onPageChange } = makeSut()
+
+    await user.click(
+      screen.getByRole('button', {
+        name: '次へ'
+      })
+    )
+
+    expect(onPageChange).toHaveBeenCalledWith(3)
   })
 })
