@@ -76,4 +76,16 @@ describe('Pagination', () => {
       })
     ).toBeDisabled()
   })
+
+  it('should disable the next button on the last page', () => {
+    makeSut({
+      currentPage: 5
+    })
+
+    expect(
+      screen.getByRole('button', {
+        name: '次へ'
+      })
+    ).toBeDisabled()
+  })
 })
