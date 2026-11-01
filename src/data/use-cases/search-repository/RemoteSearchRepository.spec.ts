@@ -3,6 +3,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { RemoteSearchRepository } from '@/data/use-cases'
 import type { HttpGetClient } from '@/data/protocols/http'
 import { HttpStatusCode } from '@/data/protocols/http'
+import { UnexpectedError } from '@/domain/errors'
 import type {
   GitHubRepositorySearchResponseDTO
 } from '@/infra/github/models'
@@ -159,5 +160,22 @@ describe('RemoteSearchRepository', () => {
       totalCount: 0,
       incompleteResults: false
     })
+  })
+
+  it('should throw UnexpectedError when the HTTP response is unsuccessful', async () => {
+    const { sut, httpGetClient } = makeSut()
+
+    vi.mocked(httpGetClient.get).mockResolvedValueOnce({
+      statusCode: HttpStatusCode.serverError,
+      body: {} as GitHubRepositorySearchResponseDTO
+    })
+
+    await expect(
+      sut.search({
+        q: 'react',
+        page: 1,
+        per_page: 10
+      })
+    ).rejects.toBeInstanceOf(UnexpectedError)
   })
 })
